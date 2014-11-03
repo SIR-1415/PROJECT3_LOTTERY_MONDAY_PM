@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<style>
+			div.key ul {display:inline-block}
+			div.key ul li {display:inline-block}
+		    div.key ul li {
+		    				width:50px;
+		    				height:35px;
+		    				border-radius:25px;
+		    				font-size:30px;
+		    				border-style:solid;
+		    				border-color:black;
+		    				text-align:center;
+		    				padding-top:10px;
+						}
+			div.key ul.numbers li {
+				background-color: lightblue;
+			}
+			div.key ul.stars li {
+				background-color: lightyellow;
+			}
+		</style>
+		<script src="jquery/jquery-2.1.1.js"></script>
+		<script>
+			$(document).ready(function () {
+				$("#butNumbers").click(function () {
+					$.ajax(
+						{
+							url: "http://www.estg.ipvc.pt/~pmoreira/sir/euro/getKeyJSON.php",
+							type: "GET",
+							dataType : "json",
+							async : true,
+							success: function (response) {
+								//divKey = $("<div/>").addClass("key");
+								listOfNumbers = $("<ul/>").addClass("numbers");
+								listOfStars = $("<ul/>").addClass("stars");
+								$("#container").append(($("<div/>").addClass("key")).append(listOfNumbers).append(listOfStars));
+								
+								$.each(response.numbers, function (idx,value) {
+									listOfNumbers.append($("<li/>").html(value));
+								});
+								$.each(response.stars, function (idx,value) {
+									listOfStars.append($("<li/>").html(value));
+								})
+							},
+							error : function (Xobj,errorText) {
+								alert(errorText);
+							}
+						}
+					)
+				})
+			})
+		</script>
+		
+	</head>
+	<body>
+		<input type="button" value="get numbers" id="butNumbers"/>
+		<div id="container"></div>
+	</body>
+</html>
