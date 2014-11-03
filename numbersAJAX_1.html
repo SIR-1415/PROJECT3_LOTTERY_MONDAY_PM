@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<script src="jquery/jquery-2.1.1.js"></script>
+		<script>
+			$(document).ready(function () {
+				$("#butNumbers").click(function () {
+					//alert("ooops!!!");
+					$.ajax(
+						{
+							url: "http://www.estg.ipvc.pt/~pmoreira/sir/euro/getKeyJSON.php",
+							type: "GET",
+							dataType : "json",
+							async : true,
+							success: function (response) {
+								//divKey = $("<div/>").addClass("key");
+								listOfNumbers = $("<ul/>").addClass("numbers");
+								listOfStars = $("<ul/>").addClass("stars");
+								$("#container").append(($("<div/>").addClass("key")).append(listOfNumbers).append(listOfStars));
+								
+								//divKey.append(listOfStars);
+								//$("#container").append(divKey);
+								
+								$.each(response.numbers, function (idx,value) {
+									listOfNumbers.append($("<li/>").html(value));
+								});
+								$.each(response.stars, function (idx,value) {
+									listOfStars.append($("<li/>").html(value));
+								})
+							},
+							error : function (Xobj,errorText) {
+								alert(errorText);
+							}
+						}
+					)
+				})
+			})
+		</script>
+		
+	</head>
+	<body>
+		<input type="button" value="get numbers" id="butNumbers"/>
+		<div id="container"></div>
+	</body>
+</html>
