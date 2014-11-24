@@ -26,22 +26,26 @@
 				$("#butNumbers").click(function () {
 					$.ajax(
 						{
-							url: "http://www.estg.ipvc.pt/~pmoreira/sir/euro/getKeyXML.php",
+							//url: "http://www.estg.ipvc.pt/~pmoreira/sir/euro/getKeyXML.php",
+							url : "getKey.php",
 							type: "GET",
 							dataType : "xml",
+							data : {
+								format : "xml"
+							},
 							async : true,
 							success: function (response) {
 								//divKey = $("<div/>").addClass("key");
-								debugger;
+								//debugger;
 								listOfNumbers = $("<ul/>").addClass("numbers");
 								listOfStars = $("<ul/>").addClass("stars");
 								$("#container").append(($("<div/>").addClass("key")).append(listOfNumbers).append(listOfStars));
 								
 								$.each($(response).find("numbers").find("ke"), function (idx,value) {
-									listOfNumbers.append($("<li/>").html(value));
+									listOfNumbers.append($("<li/>").html($(value).text()));
 								});
 								$.each($(response).find("stars").find("ke"), function (idx,value) {
-									listOfStars.append($("<li/>").html(value));
+									listOfStars.append($("<li/>").html($(value).text()));
 								})
 							},
 							error : function (Xobj,errorText) {
